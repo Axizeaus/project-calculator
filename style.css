@@ -19,7 +19,7 @@
     grid-row: 2/3;
 }
 
-.numbers{
+#numbers{
     grid-column: 2/3;
     grid-row: 2/3;
 
@@ -30,7 +30,7 @@
     grid-template-rows: repeat(4,1fr);
 }
 
-.numbers > button{
+#numbers > button{
     display: flex;
     justify-content: center;
     align-items: center;
