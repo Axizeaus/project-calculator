@@ -15,3 +15,9 @@ function multiply(x, y){
 function divide(x, y){
     return x / y;
 }
+
+function operate(func,x,y){
+    return func(x,y);
+}
+
+console.log(operate(subtract, 10, 20))
