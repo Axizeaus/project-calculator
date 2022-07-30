@@ -9,27 +9,23 @@ const numbers = document.getElementById('numbers');
 const clearer = document.getElementById('clear');
 const history = document.getElementById('history');
 const deleter = document.getElementById('delete');
+const equal = document.getElementById('equal');
 
 // events 
 
 for (let i of numbers.children){
     if (i.id === ''){
-        console.log(i);
         i.onclick = (e) => displayOnScreen(e.target.textContent); 
     } else if (i.id === 'dot'){
         // do dot related things.
     } else if (i.id === 'equal'){
-        // do equal related things.
+        equal.onclick = (e) => calculate();
     }
     // think about adding operate function here later. 2 
 }
 
-clear.onclick = () => cleanScreen();
+clearer.onclick = () => cleanScreen();
 deleter.onclick = () => deleteFunc();
-// addId.onclick = () => displayOnScreen('+');
-// subtractId.onclick = () => displayOnScreen('-');
-// multiplyId.onclick = () => displayOnScreen('x');
-// divideId.onclick = () => displayOnScreen('/');
 addId.onclick = () =>  moveMainToHistory(mainScreen.textContent + '+')
 subtractId.onclick = () => moveMainToHistory(mainScreen.textContent + '-');
 multiplyId.onclick = () =>moveMainToHistory(mainScreen.textContent + 'x');
@@ -55,6 +51,7 @@ function divide(x, y){
 }
 
 function operate(func,x,y){
+    cleanMainScreen()
     console.log(func, x, y)
     return func(x,y);
 }
@@ -65,8 +62,12 @@ function displayOnScreen(val){
     // think about adding operate function here later.
 }
 
-function cleanScreen(){
+function cleanMainScreen(){
     mainScreen.textContent = '';
+}
+
+function cleanScreen(){
+    cleanMainScreen()
     history.textContent = '';
 }
 
@@ -77,6 +78,28 @@ function deleteFunc(){
 }
 
 function moveMainToHistory(content){
-    history.textContent += content;
-    mainScreen.textContent = ''
+    history.textContent = content;
+    cleanMainScreen()
+}
+
+function calculate(){
+    let firstNum = Number(history.textContent.substring(0,history.textContent.length-1))
+    let operator = history.textContent.substring(history.textContent.length-1, history.textContent.length)
+    console.log(firstNum, operator)
+    let secondNum = Number(mainScreen.textContent);
+
+    if (operator === '+'){
+        displayOnScreen(operate(add,firstNum, secondNum))
+    } else if (operator === '-'){
+        displayOnScreen(operate(subtract,firstNum, secondNum))
+    } else if (operator === "x"){
+        displayOnScreen(operate(multiply,firstNum, secondNum))
+    } else if (secondNum === 0){
+        cleanMainScreen();
+        displayOnScreen("The second number shouldn't be 0.")
+    } else {
+        displayOnScreen(operate(divide,firstNum, secondNum))
+    }
+
+    history.textContent = '';
 }
